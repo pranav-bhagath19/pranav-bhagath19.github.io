@@ -172,6 +172,8 @@
             border: none;
             cursor: pointer;
             padding: 0.5rem;
+            z-index: 1001;
+            position: relative;
         }
         
         .menu-toggle span {
@@ -584,7 +586,7 @@
             font-family: var(--font-display);
             font-size: 4rem;
             font-weight: 800;
-            color: var(--bg-tertiary);
+            color: white;
             line-height: 1;
         }
         
@@ -866,12 +868,15 @@
                 border-bottom: 1px solid var(--border-color);
                 transform: translateY(-100%);
                 opacity: 0;
+                pointer-events: none;
                 transition: var(--transition-medium);
+                z-index: 999;
             }
             
             .nav-links.active {
                 transform: translateY(0);
                 opacity: 1;
+                pointer-events: auto;
             }
             
             .menu-toggle {
@@ -1254,7 +1259,7 @@
                     <div class="contact-icon">📱</div>
                     <div class="contact-details">
                         <h4>Phone</h4>
-                        <a href="tel:+918500143009">+91 8500143009</a>
+                        <a href="tel:+918500164309">+91 8500164309</a>
                     </div>
                 </div>
                 
