@@ -138,12 +138,13 @@
         .hero::before {
             content:'1\A2\A3\A4\A5\A6\A7\A8\A9\A10\A11\A12\A13\A14\A15\A16\A17\A18\A19\A20';
             white-space:pre; position:absolute; left:0; top:60px;
-            font-size:11px; line-height:1.9; color:var(--text-4); padding:0 14px;
+            width:44px; text-align:right;
+            font-size:11px; line-height:1.9; color:var(--text-4); padding-right:8px;
             border-right:1px solid var(--border); pointer-events:none; user-select:none;
         }
         .hero-inner {
             display:grid; grid-template-columns:1fr 360px; gap:64px;
-            align-items:center; padding-left:48px;
+            align-items:center; padding-left:64px;
         }
         .sh { display:flex; align-items:baseline; gap:8px; margin-bottom:5px; }
         .sh .ps1 { color:var(--green); font-weight:600; font-size:12px; white-space:nowrap; }
@@ -533,7 +534,6 @@
                         <a href="#contact"  class="btn btn-ghost">get_in_touch()</a>
                     </div>
                 </div>
-
                 <div class="photo-wrap">
                     <div class="photo-chrome">
                         <div class="photo-chrome-head">
