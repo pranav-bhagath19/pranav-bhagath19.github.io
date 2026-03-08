@@ -403,29 +403,69 @@
         /* ── SCROLL FADE ── */
         .fade-in { opacity:0; transform:translateY(16px); transition:opacity 0.45s ease, transform 0.45s ease; }
         .fade-in.visible { opacity:1; transform:translateY(0); }
+        section[id] { scroll-margin-top:48px; }
 
         /* ── RESPONSIVE ── */
         @media (max-width:1000px) {
-            .sidebar { display:none; }
-            .sidebar.open { display:block; }
+            .sidebar {
+                display:block;
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                top:40px; z-index:500;
+                box-shadow: 4px 0 24px rgba(0,0,0,0.6);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay {
+                display:none; position:fixed; inset:0; z-index:499;
+                background:rgba(0,0,0,0.55); backdrop-filter:blur(2px);
+            }
+            .sidebar-overlay.open { display:block; }
             .main { margin-left:0; }
             .topbar-tabs { display:none; }
             .menu-toggle { display:flex; }
+            .topbar-title span:last-child { display:none; }
         }
         @media (max-width:768px) {
-            .hero-inner { grid-template-columns:1fr; gap:40px; }
+            .hero { padding:32px 20px 36px; }
             .hero::before { display:none; }
-            .hero-inner { padding-left:0; }
+            .hero-inner {
+                grid-template-columns:1fr; gap:0; padding-left:0;
+                display:flex; flex-direction:column-reverse;
+            }
+            .photo-wrap { margin-bottom:28px; }
+            .photo-chrome { max-width:200px; margin:0 auto; }
+            .hero-name { font-size:32px; }
+            .kv-v { font-size:18px; }
+            .section { padding:40px 20px; }
+            .foot-inner { padding:20px; flex-direction:column; align-items:flex-start; gap:12px; }
             .contact-grid { grid-template-columns:1fr; }
-            .section, .hero { padding-left:20px; padding-right:20px; }
-            .foot-inner { padding-left:20px; padding-right:20px; }
+            .ach-grid { grid-template-columns:1fr 1fr; }
+            .mobile-nav {
+                display:flex; position:fixed; bottom:0; left:0; right:0; z-index:600;
+                background:var(--bg-2); border-top:1px solid var(--border); height:52px;
+            }
+            .mobile-nav a {
+                flex:1; display:flex; flex-direction:column; align-items:center;
+                justify-content:center; gap:3px; text-decoration:none;
+                color:var(--text-4); font-size:8px; letter-spacing:0.05em;
+                transition:color 0.15s; border-top:2px solid transparent; padding-top:2px;
+            }
+            .mobile-nav a .mn-icon { font-size:14px; }
+            .mobile-nav a.active { color:var(--amber); border-top-color:var(--amber); }
+            body { padding-bottom:52px; }
+            section[id] { scroll-margin-top:48px; }
         }
         @media (max-width:560px) {
             .proj-item { grid-template-columns:1fr; }
             .proj-gutter { display:none; }
             .kv-row { flex-direction:column; }
             .kv { border-right:none; border-bottom:1px solid var(--border); }
+            .ach-grid { grid-template-columns:1fr; }
+            .hero-cta { flex-direction:column; }
+            .hero-cta .btn { justify-content:center; }
+            .skills-grid { grid-template-columns:1fr; }
         }
+        .mobile-nav { display:none; }
     </style>
 </head>
 <body>
@@ -454,6 +494,7 @@
     </div>
 </div>
 
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
@@ -461,7 +502,7 @@
         <a href="#about"        class="sb-item active" data-section="about"><span class="sb-icon">▶</span> about.md</a>
         <a href="#achievements" class="sb-item" data-section="achievements"><span class="sb-icon">🏆</span> achievements.json <span class="sb-num">5</span></a>
         <a href="#skills"       class="sb-item" data-section="skills"><span class="sb-icon">⚙</span> skills.yaml</a>
-        <a href="#projects"     class="sb-item" data-section="projects"><span class="sb-icon">📁</span> projects/ <span class="sb-num">7</span></a>
+        <a href="#projects"     class="sb-item" data-section="projects"><span class="sb-icon">📁</span> projects/ <span class="sb-num">8</span></a>
         <a href="#experience"   class="sb-item" data-section="experience"><span class="sb-icon">📋</span> experience.log</a>
         <a href="#contact"      class="sb-item" data-section="contact"><span class="sb-icon">✉</span> contact.sh</a>
         <hr class="sb-divider">
@@ -497,7 +538,7 @@
                     </div>
                     <div class="sh">
                         <span class="ps1">→</span>
-                        <span class="out" style="color:var(--text-3)">Found <span style="color:var(--amber)">7</span> projects · <span style="color:var(--amber)">5</span> wins · <span style="color:var(--amber)">2</span> roles</span>
+                        <span class="out" style="color:var(--text-3)">Found <span style="color:var(--amber)">8</span> projects · <span style="color:var(--amber)">5</span> wins · <span style="color:var(--amber)">2</span> roles</span>
                     </div>
                     <h1 class="hero-name">Pranav Sai<br><span class="hi">Bhagath V</span><span class="cursor"></span></h1>
                     <div class="hero-role">
@@ -601,7 +642,7 @@
                 <span class="sec-num">04</span>
                 <h2 class="sec-title">projects/</h2>
                 <div class="sec-line"></div>
-                <span class="sec-cmd">// 7 files · sorted by recency</span>
+                <span class="sec-cmd">// 8 files · sorted by recency</span>
             </div>
             <div class="proj-list fade-in">
 
@@ -638,8 +679,38 @@
                     </div>
                 </div>
 
+                <!-- ── SATYACHECK ── -->
                 <div class="proj-item">
-                    <div class="proj-gutter">03<div class="lang-dot" style="background:#3b82f6"></div></div>
+                    <div class="proj-gutter">03<div class="lang-dot" style="background:#f59e0b"></div></div>
+                    <div class="proj-body">
+                        <div class="proj-header">
+                            <div class="proj-name">SatyaCheck — AI Fake News Detector</div>
+                            <div class="proj-meta">
+                                <span class="proj-label">🔍 NLP · SCRAPING</span>
+                                <a href="https://github.com/pranav-bhagath19" target="_blank" class="proj-link">→ GitHub</a>
+                            </div>
+                        </div>
+                        <div class="proj-desc">
+                            AI-powered misinformation detection system that classifies news articles as
+                            <span style="color:var(--green)">real ✓</span> or <span style="color:var(--red)">fake ✗</span>
+                            using fine-tuned ML models. Cross-verifies claims in real time by scraping trusted sources
+                            — Reuters, BBC, PIB, and fact-checking outlets — using BeautifulSoup and Scrapy pipelines,
+                            then aggregates evidence scores for a final truth verdict.
+                        </div>
+                        <div class="proj-tech">
+                            <span class="tech-tag py">Python</span>
+                            <span class="tech-tag ai">NLP</span>
+                            <span class="tech-tag ai">ML Classification</span>
+                            <span class="tech-tag ai">Scikit-learn</span>
+                            <span class="tech-tag db">BeautifulSoup</span>
+                            <span class="tech-tag db">Scrapy</span>
+                            <span class="tech-tag py">FastAPI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proj-item">
+                    <div class="proj-gutter">04<div class="lang-dot" style="background:#3b82f6"></div></div>
                     <div class="proj-body">
                         <div class="proj-header">
                             <div class="proj-name">AI Resume Analyzer &amp; Job Recommender</div>
@@ -655,7 +726,7 @@
                 </div>
 
                 <div class="proj-item">
-                    <div class="proj-gutter">04<div class="lang-dot" style="background:#a78bfa"></div></div>
+                    <div class="proj-gutter">05<div class="lang-dot" style="background:#a78bfa"></div></div>
                     <div class="proj-body">
                         <div class="proj-header">
                             <div class="proj-name">Quantum Secure Email Client</div>
@@ -671,7 +742,7 @@
                 </div>
 
                 <div class="proj-item">
-                    <div class="proj-gutter">05<div class="lang-dot" style="background:#f87171"></div></div>
+                    <div class="proj-gutter">06<div class="lang-dot" style="background:#f87171"></div></div>
                     <div class="proj-body">
                         <div class="proj-header">
                             <div class="proj-name">LLM Misuse Detection System</div>
@@ -687,7 +758,7 @@
                 </div>
 
                 <div class="proj-item">
-                    <div class="proj-gutter">06<div class="lang-dot" style="background:#67e8f9"></div></div>
+                    <div class="proj-gutter">07<div class="lang-dot" style="background:#67e8f9"></div></div>
                     <div class="proj-body">
                         <div class="proj-header">
                             <div class="proj-name">RAG-Powered MSME Chatbot</div>
@@ -703,7 +774,7 @@
                 </div>
 
                 <div class="proj-item">
-                    <div class="proj-gutter">07<div class="lang-dot" style="background:#22c55e"></div></div>
+                    <div class="proj-gutter">08<div class="lang-dot" style="background:#22c55e"></div></div>
                     <div class="proj-body">
                         <div class="proj-header">
                             <div class="proj-name">IoT Smart Parking System</div>
@@ -717,6 +788,7 @@
                         </div>
                     </div>
                 </div>
+
 
             </div>
         </section>
@@ -798,26 +870,53 @@
     </main>
 </div>
 
-<script>
-    // Mobile sidebar
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar    = document.getElementById('sidebar');
-    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
-    document.querySelectorAll('.sb-item').forEach(a =>
-        a.addEventListener('click', () => sidebar.classList.remove('open'))
-    );
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" id="mobileNav">
+    <a href="#about"        data-section="about"        class="active"><span class="mn-icon">◆</span>ABOUT</a>
+    <a href="#achievements" data-section="achievements"        ><span class="mn-icon">🏆</span>WINS</a>
+    <a href="#skills"       data-section="skills"              ><span class="mn-icon">⚙</span>SKILLS</a>
+    <a href="#projects"     data-section="projects"            ><span class="mn-icon">📁</span>WORK</a>
+    <a href="#contact"      data-section="contact"             ><span class="mn-icon">✉</span>CONTACT</a>
+</nav>
 
-    // Active section highlight
-    const sbItems = document.querySelectorAll('.sb-item[data-section]');
-    const tbTabs  = document.querySelectorAll('.tb-tab');
+<script>
+    // Mobile sidebar + overlay
+    const menuToggle      = document.getElementById('menuToggle');
+    const sidebar         = document.getElementById('sidebar');
+    const sidebarOverlay  = document.getElementById('sidebarOverlay');
+
+    function openSidebar()  { sidebar.classList.add('open'); sidebarOverlay.classList.add('open'); }
+    function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }
+
+    menuToggle.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+    sidebarOverlay.addEventListener('click', closeSidebar);
+    document.querySelectorAll('.sb-item').forEach(a => a.addEventListener('click', closeSidebar));
+
+    // Active section highlight — scroll-based, picks topmost visible section
+    const sbItems   = document.querySelectorAll('.sb-item[data-section]');
+    const tbTabs    = document.querySelectorAll('.tb-tab');
+    const mnLinks   = document.querySelectorAll('.mobile-nav a[data-section]');
+
     function setActive(id) {
         sbItems.forEach(el => el.classList.toggle('active', el.dataset.section === id));
         tbTabs.forEach(el  => el.classList.toggle('active', el.getAttribute('href') === '#' + id));
+        mnLinks.forEach(el => el.classList.toggle('active', el.dataset.section === id));
     }
-    const secObs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
-    }, { threshold: 0.25 });
-    document.querySelectorAll('section[id]').forEach(s => secObs.observe(s));
+
+    // Use scroll position directly — most reliable approach
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    function onScroll() {
+        const topbarH = 48;
+        // find the last section whose top is at or above the middle of the viewport
+        let current = sections[0].id;
+        for (const sec of sections) {
+            const rect = sec.getBoundingClientRect();
+            if (rect.top <= topbarH + 80) current = sec.id;
+        }
+        setActive(current);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // run on load
 
     // Scroll fade
     const fadeObs = new IntersectionObserver(entries => {
